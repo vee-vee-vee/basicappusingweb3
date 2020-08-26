@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <script src="web3.js"></script>
+        <script>
+            var Web3 = require('web3');
+            var web3 = new Web3();
+            //connect to the node
+            web3.setProvider(new
+            web3.providers.HttpProvider('http://localhost:8545'));
+
+            function getBlockInfo(blockNumber) {
+                
+                web3.eth.getBlock(blockNumber, (err, blockInfo) => {
+                    if (err) {
+                        document.getElementById('blockinfo').innerHTML = err;       
+                    }   
+                    else {
+                        var str = '';
+                        for(var key in blockInfo) {
+                            str += '<tr><td>' + key + '</td><td>' + JSON.stringify(blockInfo[key]) + '</td></tr>'; 
+                        }
+                        document.getElementById('blockinfo').innerHTML = '<table>' + str + '</table>';
+                    }     
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Block Information</h1>
+        <hr>
+        <label>Enter Block Number: </label>
+        <input type="text" id="blocknumber"/>
+        <br>
+        <button type="button" onclick="getBlockInfo(document.getElementById('blocknumber').value)">Get Block Information</button>
+        <hr>
+        <div id="blockinfo"></div>
+    </body>
+</html>
