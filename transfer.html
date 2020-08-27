@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <script src="web3.js"></script>
+        <script>
+            var Web3 = require('web3');
+            var web3 = new Web3();
+            //connect to the node
+            web3.setProvider(new
+            web3.providers.HttpProvider('http://localhost:8545'));
+
+            var accounts;
+            function getAccounts() {
+                web3.eth.getAccounts((error, accs) => {
+                    if (error) {
+                        document.getElementById('accountAddress').innerHTML =  error;
+                    }
+                    else {
+                        accounts = accs;
+                        document.getElementById('accountAddress').innerHTML = web3.eth.accounts[0]
+                    }
+                })
+            }
+
+            function getBalance() {
+                account = web3.eth.accounts[0]
+                web3.eth.getBalance(account, (error, balance) => {
+                    if (error) {
+                        document.getElementById('accountBalance').innerHTML =  error;
+                    }
+                    else {
+                        document.getElementById('accountBalance').innerHTML = web3.fromWei(balance,"ether") + ' ether';
+                    }
+                })
+            }
+
+            function sendTransaction() {
+                account = document.getElementById("transferAddress").value
+                amount = document.getElementById("transferAmount").value
+                pass = document.getElementById("transferPass").value
+                web3.personal.sendTransaction({from: accounts[0], to: account, 
+                                                value: web3.toWei(amount, "ether")}, pass, (error, transactionHash) => {
+                    if (error) {
+                        document.getElementById('transactionHash').innerHTML = error;
+                    }
+                    else {
+
+                        document.getElementById('transactionHash').innerHTML = transactionHash;
+                    }
+                })
+            }
+
+            function getBlockInfo(blockNumber) {
+                web3.eth.getBlock(blockNumber, (err, blockInfo) => {
+                    if (err) {
+                        document.getElementById('blockinfo').innerHTML = err;       
+                    }
+                    else {
+                        var str = '';
+                        for(var key in blockInfo) {
+                            str += '<tr><td>' + key + '</td><td>' + JSON.stringify(blockInfo[key]) + '</td></tr>'; 
+                        }
+                        document.getElementById('blockinfo').innerHTML = '<table>' + str + '</table>';
+                    }     
+                });
+            }
+        </script>
+    </head>
+
+    <body onload ="getAccounts(); getBalance();">
+        <h1>Node 1</h1>
+        <h1>Money Transfer</h1>
+        <hr>
+
+        <h1>Main Account Info</h1>
+        <label>Address: </label>
+        <span id="accountAddress"></span>
+        <br>
+        <label>Balance : </label>
+        <span id="accountBalance"> </span>
+        <hr>
+
+        <label>Transfer to : </label>
+        <input type="text" id="transferAddress"/>
+        <label>Amount (ether) : </label>
+        <input type="text" id="transferAmount"/>
+        <label>Pass pharase : </label>
+        <input type="text" id="transferPass"/>
+
+        <br>
+        <button type="button" onclick="sendTransaction()">Send</button>
+        <hr>
+
+        <label>Transaction Hash : </label>
+        <span id="transactionHash"> </span>
+    </body>
+</html>

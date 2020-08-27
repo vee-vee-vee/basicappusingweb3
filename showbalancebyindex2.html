@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <script src="web3.js"></script>
+        <script>
+            var Web3 = require('web3');
+            var web3 = new Web3();
+            //connect to the node
+            web3.setProvider(new
+            web3.providers.HttpProvider('http://localhost:2222'));
+            var accounts;
+            function getAccounts() {
+                web3.eth.getAccounts((error, accs) => {
+                    if (error) {
+                        document.getElementById('accountBalance').innerHTML =  error;
+                    }
+                    else {
+                        accounts = accs;
+                    }
+                })
+            }
+            function accountBalanceByIndex() {
+                index = document.getElementById('index').value;
+                web3.eth.getBalance(accounts[index], (error,balance) =>{
+                    if (error) {
+                        document.getElementById('accountBalance').innerHTML =  error;
+                    }
+                    else {
+                        document.getElementById('accountBalance').innerHTML = web3.fromWei(balance,"ether") + ' ether';
+                            
+                    }
+                });
+                
+            }
+        </script>
+    </head>
+    <body onload ="getAccounts()">
+        <h1>Node 2</h1>
+        <label>Account index: </label>
+        <input type="text" id="index"/>
+        <br>
+        <button type="button" onclick="accountBalanceByIndex()">Account balance</button>
+        <div id="accountBalance"></div>
+    </body>
+</html>
