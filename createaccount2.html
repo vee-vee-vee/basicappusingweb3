@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <script src="web3.js"></script>
+        <script>
+            var Web3 = require('web3');
+            var web3 = new Web3();
+            //connect to the node
+            web3.setProvider(new
+            web3.providers.HttpProvider('http://localhost:2222'));
+            function createAccount() {
+                web3.personal.newAccount(document.getElementById("password").value, (error, address) => {
+                    if (error) {
+                        document.getElementById('accountAddress').innerHTML = error;    
+                    }
+                    else {
+                        document.getElementById('accountAddress').innerHTML =  'Address:' + address;
+                    }
+                                            
+                });
+		    }
+            
+        </script>
+    </head>
+    <body>
+        <h1> Node 2</h1>
+        <label>Enter password for your account: </label>
+        <input type="password" id="password"/>
+        <br>
+        <button type="button" onclick="createAccount()">Create Account</button>
+        <br>
+        <div id="accountAddress"></div>
+    </body>
+</html>

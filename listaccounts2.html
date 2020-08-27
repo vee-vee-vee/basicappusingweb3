@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <script src="web3.js"></script>
+        <script>
+            var Web3 = require('web3');
+            var web3 = new Web3();
+            //connect to the node
+            web3.setProvider(new
+            web3.providers.HttpProvider('http://localhost:2222'));
+            function listAccounts() {
+                web3.eth.getAccounts((error, accounts) => {
+                    if (error) {
+                        document.getElementById('listOfAccounts').innerHTML =  error;
+                    }
+                    else {
+                        var accountList = '';
+                        for (i = 0; i < accounts.length; i++) {
+				             accountList += '<li>' + accounts[i] + '</li>';
+			            }
+                        document.getElementById('listOfAccounts').innerHTML = '<ol start="0">' + accountList + '</ol>';
+                    }
+                });
+		    }
+            
+        </script>
+    </head>
+    <body>
+        <h1>Node 2</h1>
+        <button type="button" onclick="listAccounts()">List Account</button>
+        <br>
+        <div id="listOfAccounts"></div>
+    </body>
+</html>

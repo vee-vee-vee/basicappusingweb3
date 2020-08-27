@@ -10,12 +10,16 @@
 
             function getTransaction() {
                 transaction = document.getElementById("transactionHash").value
-                web3.eth.getTranasction(transaction , error => {
+                web3.eth.getTransaction(transaction , (error, transactionInfo) => {
                     if (error) {
-                        document.getElementById('transactionHash').innerHTML = err; 
+                        document.getElementById('transactionInfo').innerHTML = error; 
                     }
                     else {
-                        document.getElementById('transactionInfo').innerHTML = transaction;
+                        var str = '';
+                        for(var key in transactionInfo) {
+                            str += '<tr><td>' + key + '</td><td>' + JSON.stringify(transactionInfo[key]) + '</td></tr>';  
+                        }
+                        document.getElementById('transactionInfo').innerHTML = '<table>' + str + '</table>';
                     }
                 })
             }
@@ -27,10 +31,11 @@
         <hr>
 
         <label>Enter transaction hash : </label>
-        <input type="text" id="transactionHash"> </input>
+        <input type="text" id="transactionHash"></input>
+        <br>
         <button type="button" onclick="getTransaction()">Get Transaction</button>
         <hr>
 
-        <div id="transactionInfo"> </div>
+        <div id="transactionInfo"></div>
     </body>
 </html>
