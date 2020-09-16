@@ -7,9 +7,7 @@
             //connect to the node
             web3.setProvider(new
             web3.providers.HttpProvider('http://localhost:8545'));
-
             function getBlockInfo(blockNumber) {
-                
                 web3.eth.getBlock(blockNumber, (err, blockInfo) => {
                     if (err) {
                         document.getElementById('blockinfo').innerHTML = err;       

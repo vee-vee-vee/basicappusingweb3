@@ -48,21 +48,6 @@
                     }
                 })
             }
-
-            function getBlockInfo(blockNumber) {
-                web3.eth.getBlock(blockNumber, (err, blockInfo) => {
-                    if (err) {
-                        document.getElementById('blockinfo').innerHTML = err;       
-                    }
-                    else {
-                        var str = '';
-                        for(var key in blockInfo) {
-                            str += '<tr><td>' + key + '</td><td>' + JSON.stringify(blockInfo[key]) + '</td></tr>'; 
-                        }
-                        document.getElementById('blockinfo').innerHTML = '<table>' + str + '</table>';
-                    }     
-                });
-            }
         </script>
     </head>
 
@@ -76,7 +61,7 @@
         <span id="accountAddress"></span>
         <br>
         <label>Balance : </label>
-        <span id="accountBalance"> </span>
+        <span id="accountBalance"></span>
         <hr>
 
         <label>Transfer to : </label>
